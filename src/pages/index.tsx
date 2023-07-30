@@ -4,32 +4,23 @@ import {
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { levelUpCreature, updateCreatureStats } from "~/actions/state";
 import { LevelStatDisplay } from "~/components/LevelStatDisplay";
 import { StatDisplay } from "~/components/StatDisplay";
 import { TraitsDisplay } from "~/components/TraitsDisplay";
-import { type Creature, type Stats } from "~/models/types";
-
-const DEFAULT_CREATURE = {};
-
-const TIME_CONST = 5000;
-
-const EVOLVE_MON_URL =
-  "https://shdw-drive.genesysgo.net/AKD4TY8YKRzSkKpd6us4xYAFKdrCdC1D3D8P5Pe8yCLb/evolvemon01.png";
+import { TIME_CONST } from "~/models/time";
+import { type Creature } from "~/models/types";
 
 export default function Home() {
-  const [temperature, setTemperature] = useState<string>("50");
+  //const [temperature, setTemperature] = useState<string>("50");
 
   const [creature, setCreature] = useState<Creature>({
     traits: {
       antlers: 0,
       hair: 0,
-      goaty: 0,
       ears: 0,
       wings: 0,
-      tail: 0,
-      bling: 0,
     },
     foodStats: {
       target: Date.now(),
@@ -45,6 +36,13 @@ export default function Home() {
     },
   });
 
+  const { antlers, hair, ears, wings } = creature.traits;
+
+  const critterUrl = useMemo(() => {
+    const url = `https://shdw-drive.genesysgo.net/H5Ljn9KqE9kNBMcR2dNPwxUyvmLTevv389wFmALGDTei/A${antlers}_B${hair}_C${ears}_D${wings}.png`;
+    return url;
+  }, [antlers, ears, hair, wings]);
+
   const handleFeed = () => {
     setCreature((currentState) => {
       const newFoodStats = updateCreatureStats(currentState.foodStats);
@@ -57,9 +55,11 @@ export default function Home() {
     });
   };
 
+  /*
   const handlePlay = () => {
     return;
   };
+  */
 
   return (
     <>
@@ -78,7 +78,7 @@ export default function Home() {
             <div className="flex w-full justify-around xs:flex-col sm:flex-row">
               <img
                 className="xs:w-full sm:w-9/12"
-                src={EVOLVE_MON_URL}
+                src={critterUrl}
                 alt="character go here"
               />
               <StatDisplay stats={creature.foodStats} />
@@ -92,7 +92,7 @@ export default function Home() {
               >
                 FEED
               </button>
-              <button
+              {/*<button
                 className="inline-flex items-center rounded bg-gray-300 p-1 px-4 py-2 font-bold text-gray-800 hover:bg-gray-400"
                 onClick={() => handlePlay()}
               >
@@ -107,7 +107,7 @@ export default function Home() {
               ></input>
               <span className="inline-flex items-center rounded bg-gray-300 p-1 px-4 py-2 font-bold text-gray-800 hover:bg-gray-400">
                 {`temperature: ${temperature}`}
-              </span>
+              </span>*/}
             </div>
           </div>
         </div>

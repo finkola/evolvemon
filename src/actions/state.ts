@@ -1,6 +1,5 @@
+import { TIME_CONST } from "~/models/time";
 import { type Traits, type Creature, type Stats } from "~/models/types";
-
-// Level added ts == level * factor * seconds
 
 export const updateCreatureStats = (stats: Stats) => {
   const { target, range, over, neutral, under } = stats;
@@ -56,7 +55,6 @@ export const levelUpCreature = (creature: Creature) => {
     return creature;
   }
   // Level UP
-  const TIME_CONST = 5000;
   const MIN_FOOD_CONST = 6;
 
   const timeToNextLvl = level * TIME_CONST;
@@ -66,7 +64,6 @@ export const levelUpCreature = (creature: Creature) => {
 
   // Trait picking algorithm
   const traitKeys = Object.keys(traits);
-
   const newTraitKey = selectTrait(traitKeys);
 
   const newTraits = {
@@ -78,7 +75,6 @@ export const levelUpCreature = (creature: Creature) => {
   }
 
   return {
-    ...creature,
     levelStats: {
       level: newLevel,
       evolveTs: newEvolveTs,
@@ -86,6 +82,12 @@ export const levelUpCreature = (creature: Creature) => {
     },
     traits: {
       ...newTraits,
+    },
+    foodStats: {
+      ...foodStats,
+      over: 0,
+      neutral: 0,
+      under: 0,
     },
   };
 };

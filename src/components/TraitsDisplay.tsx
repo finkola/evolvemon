@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import { type Traits, type Stats } from "~/models/types";
-import { StatusBar } from "./StatusBar";
+import { type Traits } from "~/models/types";
 
 interface Props {
   traits: Traits;
